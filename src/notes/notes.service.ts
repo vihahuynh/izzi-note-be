@@ -7,27 +7,27 @@ import { Note } from './schemas/note.schema';
 
 @Injectable()
 export class NotesService {
-  constructor(private readonly usersRepository: NotesRepository) {}
+  constructor(private readonly notesRepository: NotesRepository) {}
 
   create(createNoteDto: CreateNoteDto) {
-    return this.usersRepository.create(createNoteDto);
+    return this.notesRepository.create(createNoteDto);
   }
 
   findAll(query: FilterQuery<Note>) {
-    return this.usersRepository.find(query);
+    return this.notesRepository.find(query);
   }
 
   async findOne(id: string) {
-    const note = await this.usersRepository.findOne(id);
+    const note = await this.notesRepository.findOne(id);
     if (!note) throw new NotFoundException('note not found');
     return note;
   }
 
-  update(id: string, updateNoteDto: UpdateNoteDto) {
-    return this.usersRepository.update(id, updateNoteDto);
+  async update(id: string, updateNoteDto: UpdateNoteDto) {
+    return this.notesRepository.update(id, updateNoteDto);
   }
 
-  remove(id: string) {
-    return this.usersRepository.remove(id);
+  async remove(id: string) {
+    return this.notesRepository.remove(id);
   }
 }

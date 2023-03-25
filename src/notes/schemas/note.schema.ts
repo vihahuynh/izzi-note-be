@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 export type NoteDocument = Note & Document;
 
@@ -10,6 +10,9 @@ export class Note {
 
   @Prop({ required: true })
   content: string;
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Label' }])
+  labels: Types.ObjectId[];
 }
 
 const NoteSchema = SchemaFactory.createForClass(Note);
