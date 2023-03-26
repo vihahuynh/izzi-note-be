@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Types } from 'mongoose';
 
 export type LabelDocument = Label & Document;
 
@@ -6,6 +7,9 @@ export type LabelDocument = Label & Document;
 export class Label {
   @Prop({ unique: true })
   name: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: Types.ObjectId;
 }
 
 const LabelSchema = SchemaFactory.createForClass(Label);

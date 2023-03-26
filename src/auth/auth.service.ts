@@ -19,4 +19,8 @@ export class AuthService {
     if (!isMatch) throw new NotFoundException('Invalid email or password');
     return user;
   }
+
+  async getCurrentUser(username: string) {
+    return this.usersRepository.findOne({ username });
+  }
 }

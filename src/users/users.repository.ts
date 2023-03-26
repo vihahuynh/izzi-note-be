@@ -16,15 +16,15 @@ export class UsersRepository {
     private config: ConfigService,
   ) {}
 
-  async findOne(query: FilterQuery<User>): Promise<User> {
+  async findOne(query: FilterQuery<User>): Promise<UserDocument> {
     return this.userModel.findOne(query);
   }
 
-  async find(query: FilterQuery<User>): Promise<User[]> {
+  async find(query: FilterQuery<User>): Promise<UserDocument[]> {
     return this.userModel.find(query);
   }
 
-  async create(user: User): Promise<any> {
+  async create(user: User): Promise<UserDocument> {
     const hashPassword = await bcrypt.hash(
       user.password,
       parseInt(this.config.get<string>('SALT_ROUND')),
@@ -33,7 +33,7 @@ export class UsersRepository {
     return newUser.save();
   }
 
-  async update(id: string, user: Partial<User>): Promise<User> {
+  async update(id: string, user: Partial<User>): Promise<UserDocument> {
     return this.userModel.findByIdAndUpdate(id, user, { new: true });
   }
 

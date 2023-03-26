@@ -7,11 +7,11 @@ import { Note, NoteDocument } from './schemas/note.schema';
 export class NotesRepository {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
 
-  async findOne(notesFilterQuery: FilterQuery<Note>): Promise<Note> {
+  async findOne(notesFilterQuery: FilterQuery<Note>): Promise<NoteDocument> {
     return this.noteModel.findOne(notesFilterQuery);
   }
 
-  async find(notesFilterQuery: FilterQuery<Note>): Promise<Note[]> {
+  async find(notesFilterQuery: FilterQuery<Note>): Promise<NoteDocument[]> {
     return this.noteModel.find(notesFilterQuery);
   }
 
@@ -20,7 +20,7 @@ export class NotesRepository {
     return newNote.save();
   }
 
-  async update(id: string, note: Partial<Note>): Promise<Note> {
+  async update(id: string, note: Partial<Note>): Promise<NoteDocument> {
     return this.noteModel.findByIdAndUpdate(id, note, {
       new: true,
     });

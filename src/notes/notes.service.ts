@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilterQuery } from 'mongoose';
+import { UserDocument } from 'src/users/schemas/user.schema';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { NotesRepository } from './notes.repository';
@@ -9,8 +10,8 @@ import { Note } from './schemas/note.schema';
 export class NotesService {
   constructor(private readonly notesRepository: NotesRepository) {}
 
-  create(createNoteDto: CreateNoteDto) {
-    return this.notesRepository.create(createNoteDto);
+  create(createNoteDto: CreateNoteDto, user: UserDocument) {
+    return this.notesRepository.create({ ...createNoteDto, user: user._id });
   }
 
   findAll(query: FilterQuery<Note>) {

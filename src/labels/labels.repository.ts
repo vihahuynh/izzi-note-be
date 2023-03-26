@@ -10,11 +10,11 @@ export class LabelsRepository {
     private labelModel: Model<LabelDocument>,
   ) {}
 
-  async findOne(labelsFilterQuery: FilterQuery<Label>): Promise<Label> {
+  async findOne(labelsFilterQuery: FilterQuery<Label>): Promise<LabelDocument> {
     return this.labelModel.findOne(labelsFilterQuery);
   }
 
-  async find(labelsFilterQuery: FilterQuery<Label>): Promise<Label[]> {
+  async find(labelsFilterQuery: FilterQuery<Label>): Promise<LabelDocument[]> {
     return this.labelModel.find(labelsFilterQuery);
   }
 
@@ -23,7 +23,7 @@ export class LabelsRepository {
     return newLabel.save();
   }
 
-  async update(id: string, label: Partial<Label>): Promise<Label> {
+  async update(id: string, label: Partial<Label>): Promise<LabelDocument> {
     return this.labelModel.findByIdAndUpdate(id, label, { new: true });
   }
 
