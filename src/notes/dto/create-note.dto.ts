@@ -15,4 +15,6 @@ export class CreateNoteDto {
   @IsOptional()
   @IsArray()
   labels: any;
+
+  user: any;
 }

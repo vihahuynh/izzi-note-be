@@ -13,6 +13,9 @@ export class Note {
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Label' }])
   labels: Types.ObjectId[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: Types.ObjectId;
 }
 
 const NoteSchema = SchemaFactory.createForClass(Note);
