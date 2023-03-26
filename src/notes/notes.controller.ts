@@ -31,7 +31,7 @@ export class NotesController {
 
   @Get(':id')
   findOne(@Param('id', ParseObjectIdPipe) id: string) {
-    return this.notesService.findOne(id);
+    return this.notesService.findOne({ id });
   }
 
   @Patch(':id')

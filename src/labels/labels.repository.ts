@@ -10,8 +10,8 @@ export class LabelsRepository {
     private labelModel: Model<LabelDocument>,
   ) {}
 
-  async findOne(id: string): Promise<Label> {
-    return this.labelModel.findById(id);
+  async findOne(labelsFilterQuery: FilterQuery<Label>): Promise<Label> {
+    return this.labelModel.findOne(labelsFilterQuery);
   }
 
   async find(labelsFilterQuery: FilterQuery<Label>): Promise<Label[]> {

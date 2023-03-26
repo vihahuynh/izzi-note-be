@@ -31,7 +31,7 @@ export class LabelsController {
 
   @Get(':id')
   findOne(@Param('id', ParseObjectIdPipe) id: string) {
-    return this.labelsService.findOne(id);
+    return this.labelsService.findOne({ id });
   }
 
   @Patch(':id')

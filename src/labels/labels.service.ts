@@ -17,8 +17,8 @@ export class LabelsService {
     return this.labelsRepository.find(query);
   }
 
-  async findOne(id: string) {
-    const label = await this.labelsRepository.findOne(id);
+  async findOne(query: FilterQuery<Label>) {
+    const label = await this.labelsRepository.findOne(query);
     if (!label) throw new NotFoundException('label not found');
     return label;
   }

@@ -2,21 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
+import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config/dist';
+
+// console.log('salt: ', process.env.SALT_ROUND);
 
 @Injectable()
 export class UsersRepository {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name)
+    private userModel: Model<UserDocument>,
 
-  async findOne(id: string): Promise<User> {
-    return this.userModel.findById(id);
+    private config: ConfigService,
+  ) {}
+
+  async findOne(query: FilterQuery<User>): Promise<User> {
+    return this.userModel.findOne(query);
   }
 
   async find(query: FilterQuery<User>): Promise<User[]> {
     return this.userModel.find(query);
   }
 
-  async create(user: User): Promise<User> {
-    const newUser = new this.userModel(user);
+  async create(user: User): Promise<any> {
+    const hashPassword = await bcrypt.hash(
+      user.password,
+      parseInt(this.config.get<string>('SALT_ROUND')),
+    );
+    const newUser = new this.userModel({ ...user, password: hashPassword });
     return newUser.save();
   }
 

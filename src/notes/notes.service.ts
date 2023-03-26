@@ -17,8 +17,8 @@ export class NotesService {
     return this.notesRepository.find(query);
   }
 
-  async findOne(id: string) {
-    const note = await this.notesRepository.findOne(id);
+  async findOne(notesFilterQuery: FilterQuery<Note>) {
+    const note = await this.notesRepository.findOne(notesFilterQuery);
     if (!note) throw new NotFoundException('note not found');
     return note;
   }

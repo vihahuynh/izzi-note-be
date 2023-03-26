@@ -7,8 +7,8 @@ import { Note, NoteDocument } from './schemas/note.schema';
 export class NotesRepository {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
 
-  async findOne(id: string): Promise<Note> {
-    return this.noteModel.findById(id);
+  async findOne(notesFilterQuery: FilterQuery<Note>): Promise<Note> {
+    return this.noteModel.findOne(notesFilterQuery);
   }
 
   async find(notesFilterQuery: FilterQuery<Note>): Promise<Note[]> {
