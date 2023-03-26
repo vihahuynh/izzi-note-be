@@ -11,7 +11,7 @@ export class NotesService {
   constructor(private readonly notesRepository: NotesRepository) {}
 
   create(createNoteDto: CreateNoteDto, user: UserDocument) {
-    return this.notesRepository.create({ ...createNoteDto, user: user._id });
+    return this.notesRepository.create({ ...createNoteDto, owner: user._id });
   }
 
   findAll(query: FilterQuery<Note>) {
