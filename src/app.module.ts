@@ -9,6 +9,7 @@ import { Note, NoteSchema } from './notes/schemas/note.schema';
 import { APP_PIPE } from '@nestjs/core';
 import { LabelsModule } from './labels/labels.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UsersModule } from './users/users.module';
     MongooseModule.forRoot(process.env.MONGO_URI),
     LabelsModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

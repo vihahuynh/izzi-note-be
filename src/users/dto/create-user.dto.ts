@@ -7,5 +7,3 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 }
-
-export class LoginDto extends CreateUserDto {}
