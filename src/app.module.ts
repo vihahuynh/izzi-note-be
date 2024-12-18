@@ -10,11 +10,17 @@ import { APP_PIPE } from '@nestjs/core';
 import { LabelsModule } from './labels/labels.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { User, UserSchema } from './users/schemas/user.schema';
+import { Label, LabelSchema } from './labels/schemas/label.schema';
 
 @Module({
   imports: [
     NotesModule,
-    MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
+    MongooseModule.forFeature([
+      { name: Note.name, schema: NoteSchema },
+      { name: User.name, schema: UserSchema },
+      { name: Label.name, schema: LabelSchema },
+    ]),
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),

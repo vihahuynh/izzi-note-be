@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { Note } from './schemas/note.schema';
@@ -12,34 +16,44 @@ export class NotesService {
     private noteModel: Model<Note>,
   ) {}
 
-  async create(createNoteDto: CreateNoteDto): Promise<Note> {
-    const createdNote = new this.noteModel(createNoteDto);
+  async create(createNoteDto: CreateNoteDto, userId: string): Promise<Note> {
+    const createdNote = new this.noteModel({
+      ...createNoteDto,
+      createdBy: userId,
+    });
     return createdNote.save();
   }
 
-  async findAll(): Promise<Note[]> {
-    return this.noteModel.find().exec();
+  async findAll(userId: string): Promise<Note[]> {
+    return this.noteModel.find({ createdBy: userId }).exec();
   }
 
-  async findOne(id: string) {
-    const foundNote = await this.noteModel.findById(id);
-    if (!foundNote) {
-      throw new NotFoundException(`Item with ID ${id} not found.`);
-    }
-    return foundNote;
-  }
+  async update(
+    id: string,
+    updateNoteDto: UpdateNoteDto,
+    userId: string,
+  ): Promise<Note> {
+    await this.checkNoteAndAuthor(id, userId);
 
-  async update(id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
     const updatedItem = await this.noteModel
       .findByIdAndUpdate(id, updateNoteDto, { new: true, runValidators: true })
       .exec();
-    if (!updatedItem) {
-      throw new NotFoundException(`Item with ID ${id} not found.`);
-    }
+
     return updatedItem;
   }
 
-  remove(id: string) {
+  async remove(id: string, userId: string) {
+    await this.checkNoteAndAuthor(id, userId);
     return this.noteModel.findByIdAndDelete(id);
+  }
+
+  private async checkNoteAndAuthor(noteId: string, userId: string) {
+    const itemToUpdate = await this.noteModel.findById(noteId);
+    if (!itemToUpdate) {
+      throw new NotFoundException(`Item with ID ${noteId} not found.`);
+    }
+    if (itemToUpdate.createdBy.toString() !== userId) {
+      throw new ForbiddenException();
+    }
   }
 }
