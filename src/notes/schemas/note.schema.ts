@@ -44,7 +44,7 @@ export class Note extends BaseEntity {
   collaborators: User[];
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Label' }] })
-  notes: Label[];
+  labels: Label[];
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
   createdBy: User;

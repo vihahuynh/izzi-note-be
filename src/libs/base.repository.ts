@@ -3,7 +3,7 @@ import { BaseRepositoryInterface } from './base.repository.interface';
 import { BaseEntity } from './base.schema';
 import { NotFoundException } from '@nestjs/common';
 
-export abstract class BaseRepository<T extends BaseEntity>
+export abstract class BaseRepositoryAbstract<T extends BaseEntity>
   implements BaseRepositoryInterface<T>
 {
   protected constructor(private readonly model: Model<T>) {

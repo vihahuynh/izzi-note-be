@@ -7,7 +7,10 @@ import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class NotesService {
-  constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
+  constructor(
+    @InjectModel(Note.name)
+    private noteModel: Model<Note>,
+  ) {}
 
   async create(createNoteDto: CreateNoteDto): Promise<Note> {
     const createdNote = new this.noteModel(createNoteDto);
