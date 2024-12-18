@@ -1,17 +1,18 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto, LoginDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import * as jwt from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
+    private jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -29,13 +30,13 @@ export class UsersService {
       ? false
       : bcrypt.compare(password, user.hashPwd);
     if (!(user && passwordCorrect)) {
-      throw new ForbiddenException('invalid username or password');
+      throw new UnauthorizedException('invalid username or password');
     }
     const userForToken = {
       username,
       id: user._id,
     };
-    const token = jwt.sign(userForToken, process.env.SECRET);
+    const token = await this.jwtService.signAsync(userForToken);
     return { token, username };
   }
 
