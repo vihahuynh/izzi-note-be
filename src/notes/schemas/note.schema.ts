@@ -40,10 +40,10 @@ export class Note extends BaseEntity {
   @Prop()
   reminder: Date;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'User' })
   collaborators: User[];
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Label' }] })
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Label' })
   labels: Label[];
 
   @Prop({

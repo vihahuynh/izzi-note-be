@@ -2,17 +2,15 @@ import {
   IsOptional,
   IsDateString,
   IsString,
-  ValidateIf,
-  IsNotEmpty,
-  ArrayNotEmpty,
-  IsUUID,
+  IsArray,
+  IsMongoId,
 } from 'class-validator';
-import { ObjectId } from 'mongoose';
 import {
   NOTE_BACKGROUND_COLOR,
   NOTE_STATUS,
   NOTE_TYPE,
 } from 'src/contants/contants';
+import { ObjectId } from 'mongoose';
 
 export class UpdateNoteDto {
   @IsOptional()
@@ -44,4 +42,9 @@ export class UpdateNoteDto {
   @IsOptional()
   @IsDateString()
   reminder: Date;
+
+  @IsOptional()
+  @IsArray()
+  @IsMongoId({ each: true })
+  labels?: ObjectId[];
 }

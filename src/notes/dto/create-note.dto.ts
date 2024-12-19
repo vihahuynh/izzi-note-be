@@ -5,12 +5,15 @@ import {
   ValidateIf,
   IsNotEmpty,
   ArrayNotEmpty,
+  IsArray,
+  IsMongoId,
 } from 'class-validator';
 import {
   NOTE_BACKGROUND_COLOR,
   NOTE_STATUS,
   NOTE_TYPE,
 } from 'src/contants/contants';
+import { ObjectId } from 'mongoose';
 
 export class CreateNoteDto {
   @ValidateIf((n) => (!n.content && !n.checkboxesContent) || n.title)
@@ -46,4 +49,9 @@ export class CreateNoteDto {
   @IsOptional()
   @IsDateString()
   reminder: Date;
+
+  @IsOptional()
+  @IsArray()
+  @IsMongoId({ each: true })
+  labels?: ObjectId[];
 }
