@@ -17,11 +17,11 @@ export class NotesService {
   ) {}
 
   async create(createNoteDto: CreateNoteDto, userId: string): Promise<Note> {
-    const createdNote = new this.noteModel({
+    const newNote = new this.noteModel({
       ...createNoteDto,
       createdBy: userId,
     });
-    return createdNote.save();
+    return newNote.save();
   }
 
   async findAll(userId: string): Promise<Note[]> {
@@ -44,7 +44,7 @@ export class NotesService {
 
   async remove(id: string, userId: string) {
     await this.checkNoteAndAuthor(id, userId);
-    return this.noteModel.findByIdAndDelete(id);
+    return this.noteModel.findByIdAndDelete(id).exec();
   }
 
   private async checkNoteAndAuthor(noteId: string, userId: string) {
